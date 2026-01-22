@@ -18,8 +18,7 @@
         .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid var(--naranja); text-align: center; }
         .resultado-monto { font-size: 30px; font-weight: 800; color: var(--naranja); display: block; }
         .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; }
-        .footer-info { background: #fff; padding: 20px; border-radius: 10px; margin-top: 20px; border: 1px solid #eee; text-align: left; }
-        .grid-metodos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 13px; }
+        .error-msg { color: #e74c3c; font-size: 12px; font-weight: bold; text-align: left; display: none; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -31,118 +30,88 @@
 </header>
 
 <div class="container">
-    <h3>1. Calculadora de Cambio Global</h3>
+    <h3>1. Calculadora Global</h3>
     
-    <label>Vendedor de confianza:</label>
+    <label>Vendedor:</label>
     <select id="vendedor">
         <option value="56957326594|Y40">Y40 Nay Martínez</option>
         <option value="56974967341|Y32">Y32 José Millán</option>
         <option value="584120628361|Y17">Y17 Alba Arévalo</option>
     </select>
 
-    <label>Desde (Tengo):</label>
-    <select id="origen" onchange="calcular()">
-        <option value="CHILE">🇨🇱 Chile (CLP)</option>
-        <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
-        <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
-        <option value="PERU">🇵🇪 Perú (PEN)</option>
-        <option value="DOLAR">🇺🇸 Dólares (USD/Zelle)</option>
-    </select>
-
-    <label>Hacia (Quiero enviar a):</label>
-    <select id="destino" onchange="calcular()">
-        <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
-        <option value="CHILE">🇨🇱 Chile (CLP)</option>
-        <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
-        <option value="PERU">🇵🇪 Perú (PEN)</option>
-        <option value="PANAMA">🇵🇦 Panamá (USD)</option>
-        <option value="ECUADOR">🇪🇨 Ecuador (USD)</option>
-        <option value="MEXICO">🇲🇽 México (MXN)</option>
-        <option value="ARGENTINA">🇦🇷 Argentina (ARS)</option>
-        <option value="DOLAR">🇺🇸 Dólares (Zelle/Efectivo)</option>
-    </select>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div>
+            <label>Desde:</label>
+            <select id="origen" onchange="calcular()">
+                <option value="CHILE">🇨🇱 Chile (CLP)</option>
+                <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
+                <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
+                <option value="PERU">🇵🇪 Perú (PEN)</option>
+                <option value="DOLAR">🇺🇸 Dólares (USD)</option>
+            </select>
+        </div>
+        <div>
+            <label>Hacia:</label>
+            <select id="destino" onchange="calcular()">
+                <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
+                <option value="CHILE">🇨🇱 Chile (CLP)</option>
+                <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
+                <option value="PERU">🇵🇪 Perú (PEN)</option>
+                <option value="DOLAR">🇺🇸 Dólares (USD)</option>
+            </select>
+        </div>
+    </div>
 
     <label>Monto a enviar:</label>
-    <input type="number" id="monto" placeholder="Ej: 220000" oninput="calcular()">
+    <input type="number" id="monto" placeholder="0.00" oninput="calcular()">
 
     <div class="resultado-caja">
-        <span id="label-resultado">Recibes aproximadamente:</span>
         <span class="resultado-monto" id="resultado">0.00</span>
         <b id="moneda-final">Bolívares</b>
     </div>
 
-    <h3>2. Datos del Receptor</h3>
+    <h3>2. Datos Bancarios</h3>
     <input type="text" id="nombre" placeholder="Nombre y Apellido">
-    <input type="text" id="cedula" placeholder="Cédula / ID">
-    <input type="text" id="banco" placeholder="Banco">
-    <input type="text" id="nro_cuenta" placeholder="Número de cuenta / Pago Móvil">
+    <input type="text" id="cedula" placeholder="Cédula / RIF / ID">
+    <input type="text" id="banco" placeholder="Banco Receptor">
+    <select id="tipo_cuenta" onchange="validarDigitos()">
+        <option value="Corriente">Cuenta Corriente (20 dígitos)</option>
+        <option value="Ahorro">Cuenta de Ahorros (20 dígitos)</option>
+        <option value="Pago Móvil">Pago Móvil</option>
+    </select>
+    <input type="text" id="nro_cuenta" placeholder="Número de cuenta o teléfono" oninput="validarDigitos()">
+    <div id="msg-error-cuenta" class="error-msg">⚠️ El número de cuenta debe tener exactamente 20 dígitos.</div>
 
     <button class="btn-whatsapp" onclick="enviarWhatsApp()">
         <i class="fab fa-whatsapp"></i> ENVIAR AL VENDEDOR
     </button>
 </div>
 
-<div class="container footer-info">
-    <h4 style="margin-top:0; color:var(--naranja)">Métodos de Pago & Destinos</h4>
-    <div class="grid-metodos">
-        <div>
-            <b>🇻🇪 VENEZUELA:</b> Todos los bancos y Pago Móvil.<br>
-            <b>🇨🇱 CHILE:</b> Todos los bancos.<br>
-            <b>🇵🇪 PERU:</b> BCP, Yape, Interbancaria.
-        </div>
-        <div>
-            <b>💎 BILLETERAS:</b> Zelle (Min $50), Zinli, Wally, Panamá.<br>
-            <b>📍 OTROS:</b> México (BBVA), Argentina (Ualá, Brubank).
-        </div>
-    </div>
-</div>
-
 <script>
-// MATRIZ DE TASAS SEGÚN TUS IMÁGENES
-// op: 'm' para multiplicar, 'd' para dividir
 const matriz = {
+    // CHILE ORIGEN
     "CHILE_VENEZUELA": { tasa: 0.487, op: 'm' },
     "CHILE_COLOMBIA": { tasa: 3.6, op: 'm' },
     "CHILE_PERU": { tasa: 0.0033, op: 'm' },
-    "CHILE_ARGENTINA": { tasa: 1.4, op: 'm' },
-    "CHILE_ECUADOR": { tasa: 0.00097, op: 'm' },
-    "CHILE_PANAMA": { tasa: 0.00095, op: 'm' },
-    "CHILE_MEXICO": { tasa: 0.0175, op: 'm' },
     "CHILE_DOLAR": { tasa: 0.00098, op: 'm' },
-    
+    // VENEZUELA ORIGEN
     "VENEZUELA_COLOMBIA": { tasa: 6, op: 'm' },
     "VENEZUELA_PERU": { tasa: 150, op: 'd' },
-    "VENEZUELA_ARGENTINA": { tasa: 0.7, op: 'd' },
-    "VENEZUELA_ECUADOR": { tasa: 580, op: 'd' },
-    "VENEZUELA_PANAMA": { tasa: 586, op: 'd' },
-    "VENEZUELA_MEXICO": { tasa: 50, op: 'd' },
     "VENEZUELA_CHILE": { tasa: 0.7, op: 'd' },
     "VENEZUELA_DOLAR": { tasa: 635, op: 'd' },
-
-    "COLOMBIA_VENEZUELA": { tasa: 9.1, op: 'm' },
+    // COLOMBIA ORIGEN
+    "COLOMBIA_VENEZUELA": { tasa: 9.1, op: 'd' }, // CORREGIDO: DIVIDE
     "COLOMBIA_CHILE": { tasa: 0.211, op: 'm' },
     "COLOMBIA_PERU": { tasa: 0.00080, op: 'm' },
-    "COLOMBIA_ARGENTINA": { tasa: 0.349, op: 'm' },
-    "COLOMBIA_ECUADOR": { tasa: 0.000226, op: 'm' },
-    "COLOMBIA_PANAMA": { tasa: 0.000221, op: 'm' },
-    "COLOMBIA_MEXICO": { tasa: 0.00424, op: 'm' },
     "COLOMBIA_DOLAR": { tasa: 0.237, op: 'm' },
-
+    // PERU ORIGEN
     "PERU_VENEZUELA": { tasa: 126, op: 'm' },
     "PERU_CHILE": { tasa: 235, op: 'm' },
     "PERU_COLOMBIA": { tasa: 960, op: 'm' },
-    "PERU_MEXICO": { tasa: 4.7, op: 'm' },
-    "PERU_ARGENTINA": { tasa: 375, op: 'm' },
-    "PERU_ECUADOR": { tasa: 0.255, op: 'm' },
-    "PERU_PANAMA": { tasa: 0.25, op: 'm' },
     "PERU_DOLAR": { tasa: 0.262, op: 'm' },
-
+    // DOLAR ORIGEN
     "DOLAR_CHILE": { tasa: 765, op: 'm' },
     "DOLAR_PERU": { tasa: 2.88, op: 'm' },
-    "DOLAR_ARGENTINA": { tasa: 1305, op: 'm' },
-    "DOLAR_ECUADOR": { tasa: 0.87, op: 'm' },
-    "DOLAR_PANAMA": { tasa: 0.85, op: 'm' },
-    "DOLAR_MEXICO": { tasa: 15.7, op: 'm' },
     "DOLAR_VENEZUELA": { tasa: 365, op: 'm' },
     "DOLAR_COLOMBIA": { tasa: 3160, op: 'm' }
 };
@@ -152,21 +121,24 @@ function calcular() {
     const origen = document.getElementById('origen').value;
     const destino = document.getElementById('destino').value;
     const clave = `${origen}_${destino}`;
-    
     document.getElementById('moneda-final').innerText = destino;
-
-    if (origen === destino) {
-        document.getElementById('resultado').innerText = monto.toFixed(2);
-        return;
-    }
-
+    if (origen === destino) { document.getElementById('resultado').innerText = monto.toFixed(2); return; }
     const config = matriz[clave];
     if (config) {
         let total = config.op === 'm' ? monto * config.tasa : monto / config.tasa;
         document.getElementById('resultado').innerText = total.toLocaleString('es-VE', {minimumFractionDigits: 2});
-    } else {
-        document.getElementById('resultado').innerText = "Consultar Tasa";
+    } else { document.getElementById('resultado').innerText = "Consultar Tasa"; }
+}
+
+function validarDigitos() {
+    const tipo = document.getElementById('tipo_cuenta').value;
+    const cuenta = document.getElementById('nro_cuenta').value.replace(/\D/g, ''); // Solo números
+    const errorDiv = document.getElementById('msg-error-cuenta');
+    if ((tipo === "Corriente" || tipo === "Ahorro") && cuenta.length > 0) {
+        if (cuenta.length !== 20) { errorDiv.style.display = "block"; return false; }
     }
+    errorDiv.style.display = "none";
+    return true;
 }
 
 function enviarWhatsApp() {
@@ -174,15 +146,13 @@ function enviarWhatsApp() {
     const origen = document.getElementById('origen').value;
     const destino = document.getElementById('destino').value;
     const resultado = document.getElementById('resultado').innerText;
-    const nombre = document.getElementById('nombre').value;
-    const cedula = document.getElementById('cedula').value;
-    const banco = document.getElementById('banco').value;
     const nro = document.getElementById('nro_cuenta').value;
     const vendedorData = document.getElementById('vendedor').value.split('|');
 
-    if(!monto || !nombre || !nro) { alert("⚠️ Completa los datos"); return; }
+    if (!validarDigitos()) { alert("⚠️ El número de cuenta debe tener exactamente 20 dígitos."); return; }
+    if(!monto || !nro) { alert("⚠️ Por favor completa los datos básicos."); return; }
 
-    const mensaje = `*FICHA DE OPERACIÓN*%0A--------------------------%0A${nombre}%0A${cedula}%0A${banco}%0A${nro}%0A%0A*MONTO:* ${resultado} ${destino}%0A*PAGO:* ${monto} ${origen}%0A*VENDEDOR:* ${vendedorData[1]}%0A*RUTA:* ${origen} a ${destino}`;
+    const mensaje = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 *Beneficiario:* ${document.getElementById('nombre').value}%0A🆔 *ID:* ${document.getElementById('cedula').value}%0A🏦 *Banco:* ${document.getElementById('banco').value}%0A🔢 *Cuenta:* ${nro}%0A%0A*💰 RECIBE:* ${resultado} ${destino}%0A*💸 PAGA:* ${monto} ${origen}%0A*🤝 VENDEDOR:* ${vendedorData[1]}`;
     window.open(`https://wa.me/${vendedorData[0]}?text=${mensaje}`, '_blank');
 }
 </script>
