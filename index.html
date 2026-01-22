@@ -14,16 +14,16 @@
         label { font-weight: bold; display: block; margin: 15px 0 5px; text-align: left; }
         select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; }
         
-        /* Resultado con formato profesional */
         .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; border: 2px solid var(--naranja); margin: 20px 0; }
         .resultado-monto { font-size: 34px; font-weight: 800; color: var(--naranja); display: block; }
         
-        /* Botón de WhatsApp validado */
         .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.3s; }
         .btn-active { opacity: 1 !important; pointer-events: auto !important; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4); }
         
-        .footer-info { background: white; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px; border: 1px solid #eee; text-align: left; font-size: 13px; line-height: 1.6; }
-        .grid-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* Banner de información mejorado */
+        .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; max-width: 1000px; margin: 20px auto; padding: 10px; }
+        .card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; font-size: 13px; }
+        .card h4 { margin-top: 0; color: var(--naranja); display: flex; align-items: center; gap: 8px; }
         .error-hint { color: #e74c3c; font-size: 12px; text-align: left; font-weight: bold; margin-bottom: 10px; display: block; }
     </style>
 </head>
@@ -31,11 +31,11 @@
 
 <header>
     <img src="logo.png" alt="Cambios Yireh" class="logo">
-    <br><i>"Tu puente de confianza, tu dinero al instante."</i>
+    <p>"Tu puente de confianza, tu dinero al instante."</p>
 </header>
 
 <div class="container">
-    <label>Vendedor:</label>
+    <label>Vendedor de confianza:</label>
     <select id="vendedor">
         <option value="56957326594|Y40">Y40 Nay Martínez</option>
         <option value="56974967341|Y32">Y32 José Millán</option>
@@ -50,11 +50,11 @@
                 <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
                 <option value="PERU">🇵🇪 Perú (PEN)</option>
                 <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
+                <option value="DOLAR">🇺🇸 Dólar/Zelle</option>
                 <option value="ARGENTINA">🇦🇷 Argentina (ARS)</option>
                 <option value="MEXICO">🇲🇽 México (MXN)</option>
                 <option value="PANAMA">🇵🇦 Panamá (USD)</option>
                 <option value="ECUADOR">🇪🇨 Ecuador (USD)</option>
-                <option value="DOLAR">🇺🇸 Dólar/Zelle</option>
             </select>
         </div>
         <div>
@@ -74,7 +74,7 @@
     </div>
 
     <label>Monto a enviar:</label>
-    <input type="number" id="monto" placeholder="0.00" oninput="calcular()">
+    <input type="number" id="monto" placeholder="Ej: 5000" oninput="calcular()">
 
     <div class="resultado-caja">
         <span id="label-res" style="color:#7f8c8d; font-size:12px; font-weight:bold; text-transform:uppercase;">Recibes aproximadamente</span>
@@ -96,7 +96,7 @@
 
     <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left;">
         <input type="checkbox" id="comprobante" onchange="validar()"> 
-        <b>Confirmación:</b> Ya tengo mi comprobante listo para adjuntar al vendedor.
+        <b>Confirmación:</b> Ya tengo mi comprobante de pago listo para enviar.
     </div>
 
     <button id="btn-wa" class="btn-whatsapp" onclick="enviar()">
@@ -104,31 +104,32 @@
     </button>
 </div>
 
-<div class="footer-info">
-    <h4 style="color:var(--naranja); margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 Bancos Disponibles y Mínimos</h4>
-    <div class="grid-footer">
-        <div>
-            <b>🇻🇪 VENEZUELA:</b> Todos los bancos y Pago Móvil.<br>
-            <b>🇨🇱 CHILE:</b> Todos los bancos de Chile.<br>
-            <b>🇵🇪 PERU:</b> BCP, Yape, Interbancaria.<br>
-            <b>🇨🇴 COLOMBIA:</b> Nequi, Bancolombia, Transfiya, Llave Bre-B.
-        </div>
-        <div>
-            <b>🇵🇦 PANAMÁ:</b> Banco General, Yappi, Banistmo, Banesco (Min $20).<br>
-            <b>🇦🇷 ARGENTINA:</b> MercadoPago, Ualá, Brubank (Min $20).<br>
-            <b>🇲🇽 MÉXICO:</b> BBVA, STP, MercadoPago, Citibanamex (Min $20).<br>
-            <b>🇪🇨 ECUADOR:</b> Pichincha, Guayaquil, Produbanco (Min $20).
-        </div>
+<div class="footer-cards">
+    <div class="card">
+        <h4><i class="fas fa-university"></i> Métodos de Pago</h4>
+        <b>(VES) VENEZUELA:</b> Todos los bancos y Pago Móvil.<br>
+        <b>(CLP) CHILE:</b> Todos los bancos de Chile.<br>
+        <b>(PEN) PERU:</b> BCP, Yape, Interbancaria.<br>
+        <b>(COP) COLOMBIA:</b> Nequi, Bancolombia, Transfiya, Llave Bre-B.
     </div>
-    <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; text-align: center;">
-        <b>🇺🇸 USD:</b> Zelle (Mínimo $50) | Zinli / Wally (Mínimo $20).
+    <div class="card">
+        <h4><i class="fas fa-wallet"></i> Billeteras & USD</h4>
+        <b>(USD) Zelle:</b> Mínimo 50$.<br>
+        <b>(USD) Zinli / Wally:</b> Mínimo 20$.<br>
+        <b>(USD) Panamá:</b> Banco General, Yappi, Banistmo, Banesco. Mínimo 20$.<br>
+        <b>(USD) Ecuador:</b> Pichincha, Guayaquil, Produbanco. Mínimo 20$.
+    </div>
+    <div class="card">
+        <h4><i class="fas fa-map-marker-alt"></i> Otros Destinos</h4>
+        <b>(MXN) México:</b> BBVA, STP, MercadoPago, Citibanamex. Mínimo 20$.<br>
+        <b>(ARS) Argentina:</b> MercadoPago, Ualá, Brubank. Mínimo 20$.
     </div>
 </div>
 
 <script>
-// MATRIZ DE TASAS COMPLETA Y CORREGIDA
 const matriz = {
-    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'}, // DIVIDE
+    // Lógica principal de tus tablas
+    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'}, // Dividir
     "CHILE_VENEZUELA": {t: 0.487, o: 'm'},
     "PERU_VENEZUELA": {t: 126, o: 'm'},
     "DOLAR_VENEZUELA": {t: 365, o: 'm'},
@@ -138,7 +139,10 @@ const matriz = {
     "VENEZUELA_DOLAR": {t: 635, o: 'd'},
     "DOLAR_CHILE": {t: 765, o: 'm'},
     "DOLAR_PERU": {t: 2.88, o: 'm'},
-    "DOLAR_COLOMBIA": {t: 3160, o: 'm'}
+    "DOLAR_COLOMBIA": {t: 3160, o: 'm'},
+    "COLOMBIA_DOLAR": {t: 0.237, o: 'm'},
+    "PERU_DOLAR": {t: 0.262, o: 'm'},
+    "CHILE_DOLAR": {t: 0.00098, o: 'm'}
 };
 
 function calcular() {
@@ -153,7 +157,7 @@ function calcular() {
     const config = matriz[`${o}_${d}`];
     if(config) {
         let res = config.o === 'm' ? m * config.t : m / config.t;
-        // Formato: 5,494.51 (Comas para miles, Punto para decimales)
+        // Formato: Comas para miles, Punto para decimales (ej: 5,494.51)
         document.getElementById('resultado').innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     } else {
         document.getElementById('resultado').innerText = "Consulte Tasa";
@@ -172,10 +176,10 @@ function validar() {
     let ok = false;
     if(t === "Pago Móvil") {
         ok = (n.length === 11);
-        h.innerText = ok ? "" : "❌ Pago Móvil debe tener 11 dígitos";
+        h.innerText = ok ? "" : "❌ El Pago Móvil requiere 11 dígitos";
     } else {
         ok = (n.length === 20);
-        h.innerText = ok ? "" : "❌ Cuenta debe tener 20 dígitos";
+        h.innerText = ok ? "" : "❌ La cuenta bancaria requiere 20 dígitos";
     }
 
     if(ok && comp && monto > 0) {
@@ -187,7 +191,7 @@ function validar() {
 
 function enviar() {
     const v = document.getElementById('vendedor').value.split('|');
-    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🆔 ${document.getElementById('cedula').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}`;
+    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🆔 ${document.getElementById('cedula').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}%0A%0A_Adjunto mi comprobante a continuación..._`;
     window.open(`https://wa.me/${v[0]}?text=${msg}`,'_blank');
 }
 </script>
