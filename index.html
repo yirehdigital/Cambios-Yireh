@@ -6,34 +6,32 @@
     <title>Cambios Yireh | Calculadora Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --naranja: #e67e22; --azul: #2c3e50; --gris: #f4f7f6; }
+        :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; text-align: center; }
-        header { background: var(--naranja); color: white; padding: 25px; border-bottom: 5px solid #d35400; }
-        .logo { max-width: 150px; }
-        .container { max-width: 600px; margin: 20px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        header { background: var(--naranja); color: white; padding: 25px; border-bottom: 5px solid var(--naranja-dark); }
+        .logo { max-width: 150px; margin-bottom: 5px; }
+        .container { max-width: 600px; margin: 20px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         label { font-weight: bold; display: block; margin: 15px 0 5px; text-align: left; }
         select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; }
         
-        /* Estilo para simular banderas circulares */
-        .select-wrapper { position: relative; }
-        option { font-size: 18px; }
-
-        .resultado-caja { background: #fff9f4; padding: 25px; border-radius: 12px; border: 2px solid var(--naranja); margin: 25px 0; }
-        .resultado-label { color: #7f8c8d; font-size: 14px; text-transform: uppercase; font-weight: bold; }
-        .resultado-monto { font-size: 36px; font-weight: 900; color: var(--naranja); display: block; margin: 5px 0; }
+        /* Resultado con formato profesional */
+        .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; border: 2px solid var(--naranja); margin: 20px 0; }
+        .resultado-monto { font-size: 34px; font-weight: 800; color: var(--naranja); display: block; }
         
-        .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 10px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.4; pointer-events: none; }
-        .btn-active { opacity: 1; pointer-events: auto; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+        /* Botón de WhatsApp validado */
+        .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.3s; }
+        .btn-active { opacity: 1 !important; pointer-events: auto !important; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4); }
         
-        .footer-info { background: white; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px; border: 1px solid #eee; text-align: left; font-size: 13px; }
-        .error-hint { color: #e74c3c; font-size: 12px; text-align: left; font-weight: bold; margin-top: -5px; margin-bottom: 10px; }
+        .footer-info { background: white; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px; border: 1px solid #eee; text-align: left; font-size: 13px; line-height: 1.6; }
+        .grid-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .error-hint { color: #e74c3c; font-size: 12px; text-align: left; font-weight: bold; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="logo.png" alt="Cambios Yireh" class="logo">
-    <p>"Tu puente de confianza, tu dinero al instante."</p>
+    <br><i>"Tu puente de confianza, tu dinero al instante."</i>
 </header>
 
 <div class="container">
@@ -44,7 +42,7 @@
         <option value="5841220628361|Y17">Y17 Alba Arévalo</option>
     </select>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
             <label>Desde (Tengo):</label>
             <select id="origen" onchange="calcular()">
@@ -79,9 +77,9 @@
     <input type="number" id="monto" placeholder="0.00" oninput="calcular()">
 
     <div class="resultado-caja">
-        <span class="resultado-label" id="label-destino">Recibes en Venezuela</span>
+        <span id="label-res" style="color:#7f8c8d; font-size:12px; font-weight:bold; text-transform:uppercase;">Recibes aproximadamente</span>
         <span class="resultado-monto" id="resultado">0.00</span>
-        <b style="color: var(--azul)" id="moneda-text">BOLÍVARES</b>
+        <b id="moneda-text" style="color:var(--azul)">BOLÍVARES</b>
     </div>
 
     <h3>Datos del Receptor</h3>
@@ -96,9 +94,9 @@
     <input type="text" id="nro_cuenta" placeholder="Número de cuenta o teléfono" oninput="validar()">
     <span id="hint" class="error-hint"></span>
 
-    <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px;">
+    <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left;">
         <input type="checkbox" id="comprobante" onchange="validar()"> 
-        <b>Confirmo que tengo el comprobante para adjuntar.</b>
+        <b>Confirmación:</b> Ya tengo mi comprobante listo para adjuntar al vendedor.
     </div>
 
     <button id="btn-wa" class="btn-whatsapp" onclick="enviar()">
@@ -107,14 +105,30 @@
 </div>
 
 <div class="footer-info">
-    <h4 style="color:var(--naranja); margin-top:0;">Mínimos y Bancos</h4>
-    <p><b>🇵🇦 Panamá:</b> Todos los bancos (Min $20). | <b>🇦🇷 Argentina:</b> Brubank, M.Pago, Ualá (Min $20).</p>
-    <p><b>🇲🇽 México:</b> BBVA, Banamex, M.Pago (Min $20). | <b>🇪🇨 Ecuador:</b> Pichincha, Guayaquil (Min $20).</p>
+    <h4 style="color:var(--naranja); margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 Bancos Disponibles y Mínimos</h4>
+    <div class="grid-footer">
+        <div>
+            <b>🇻🇪 VENEZUELA:</b> Todos los bancos y Pago Móvil.<br>
+            <b>🇨🇱 CHILE:</b> Todos los bancos de Chile.<br>
+            <b>🇵🇪 PERU:</b> BCP, Yape, Interbancaria.<br>
+            <b>🇨🇴 COLOMBIA:</b> Nequi, Bancolombia, Transfiya, Llave Bre-B.
+        </div>
+        <div>
+            <b>🇵🇦 PANAMÁ:</b> Banco General, Yappi, Banistmo, Banesco (Min $20).<br>
+            <b>🇦🇷 ARGENTINA:</b> MercadoPago, Ualá, Brubank (Min $20).<br>
+            <b>🇲🇽 MÉXICO:</b> BBVA, STP, MercadoPago, Citibanamex (Min $20).<br>
+            <b>🇪🇨 ECUADOR:</b> Pichincha, Guayaquil, Produbanco (Min $20).
+        </div>
+    </div>
+    <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; text-align: center;">
+        <b>🇺🇸 USD:</b> Zelle (Mínimo $50) | Zinli / Wally (Mínimo $20).
+    </div>
 </div>
 
 <script>
+// MATRIZ DE TASAS COMPLETA Y CORREGIDA
 const matriz = {
-    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'},
+    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'}, // DIVIDE
     "CHILE_VENEZUELA": {t: 0.487, o: 'm'},
     "PERU_VENEZUELA": {t: 126, o: 'm'},
     "DOLAR_VENEZUELA": {t: 365, o: 'm'},
@@ -122,8 +136,9 @@ const matriz = {
     "VENEZUELA_COLOMBIA": {t: 6, o: 'm'},
     "VENEZUELA_PERU": {t: 150, o: 'd'},
     "VENEZUELA_DOLAR": {t: 635, o: 'd'},
-    // Resto de combinaciones basadas en tus tablas...
-    "DOLAR_CHILE": {t: 765, o: 'm'}, "DOLAR_PERU": {t: 2.88, o: 'm'}, "DOLAR_COLOMBIA": {t: 3160, o: 'm'}
+    "DOLAR_CHILE": {t: 765, o: 'm'},
+    "DOLAR_PERU": {t: 2.88, o: 'm'},
+    "DOLAR_COLOMBIA": {t: 3160, o: 'm'}
 };
 
 function calcular() {
@@ -131,7 +146,6 @@ function calcular() {
     const o = document.getElementById('origen').value;
     const d = document.getElementById('destino').value;
     
-    document.getElementById('label-destino').innerText = `Recibes en ${d}`;
     document.getElementById('moneda-text').innerText = d === "VENEZUELA" ? "BOLÍVARES" : d;
 
     if(o === d) { document.getElementById('resultado').innerText = m.toFixed(2); return; }
@@ -139,7 +153,7 @@ function calcular() {
     const config = matriz[`${o}_${d}`];
     if(config) {
         let res = config.o === 'm' ? m * config.t : m / config.t;
-        // FORMATO: Comas para miles, Punto para decimales
+        // Formato: 5,494.51 (Comas para miles, Punto para decimales)
         document.getElementById('resultado').innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     } else {
         document.getElementById('resultado').innerText = "Consulte Tasa";
@@ -153,17 +167,18 @@ function validar() {
     const comp = document.getElementById('comprobante').checked;
     const b = document.getElementById('btn-wa');
     const h = document.getElementById('hint');
+    const monto = parseFloat(document.getElementById('monto').value) || 0;
     
     let ok = false;
     if(t === "Pago Móvil") {
         ok = (n.length === 11);
-        h.innerText = ok ? "" : "❌ Debe tener 11 dígitos";
+        h.innerText = ok ? "" : "❌ Pago Móvil debe tener 11 dígitos";
     } else {
         ok = (n.length === 20);
-        h.innerText = ok ? "" : "❌ Debe tener 20 dígitos";
+        h.innerText = ok ? "" : "❌ Cuenta debe tener 20 dígitos";
     }
 
-    if(ok && comp && parseFloat(document.getElementById('monto').value) > 0) {
+    if(ok && comp && monto > 0) {
         b.classList.add('btn-active');
     } else {
         b.classList.remove('btn-active');
