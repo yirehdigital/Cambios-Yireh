@@ -3,66 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambios Yireh | Calculadora Oficial</title>
+    <title>Cambios Yireh | Envío de Remesas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --azul: #1e3a8a; --dorado: #fbbf24; --gris: #f3f4f6; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--gris); margin: 0; padding: 0; text-align: center; }
         header { background: var(--azul); color: white; padding: 20px; border-bottom: 4px solid var(--dorado); }
-        .logo { max-width: 180px; margin-bottom: 10px; }
+        .logo { max-width: 150px; margin-bottom: 10px; }
         .container { max-width: 500px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        label { font-weight: bold; display: block; margin: 10px 0 5px; text-align: left; }
-        select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; }
+        h3 { color: var(--azul); border-bottom: 2px solid var(--dorado); padding-bottom: 5px; margin-top: 25px; }
+        label { font-weight: bold; display: block; margin: 10px 0 5px; text-align: left; font-size: 14px; }
+        select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; }
         .resultado-caja { background: #e0f2fe; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px dashed var(--azul); }
         .resultado-monto { font-size: 26px; font-weight: bold; color: var(--azul); }
-        .btn-whatsapp { background: #25d366; color: white; padding: 15px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; }
+        .btn-whatsapp { background: #25d366; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="logo.png" alt="Cambios Yireh" class="logo">
-    <p>Tu dinero rápido y seguro</p>
+    <p>Operaciones Rápidas y Seguras</p>
 </header>
 
 <div class="container">
     <div class="calculadora">
+        <h3>1. Calculadora de Cambio</h3>
         <label>Vendedor de confianza:</label>
         <select id="vendedor">
-            <option value="56957326594|Y40 Nay Martínez">Y40 Nay Martínez</option>
-            <option value="56974967341|Y32 José Millán">Y32 José Millán</option>
-            <option value="584120628361|Y17 Alba Arévalo">Y17 Alba Arévalo</option>
+            <option value="56957326594|Y40">Y40 Nay Martínez</option>
+            <option value="56974967341|Y32">Y32 José Millán</option>
+            <option value="584120628361|Y17">Y17 Alba Arévalo</option>
         </select>
 
-        <label>Tengo (Envías):</label>
+        <label>Moneda de origen:</label>
         <select id="moneda-envio" onchange="calcular()">
-            <option value="CLP">🇨🇱 CLP (Pesos Chilenos)</option>
-            <option value="USD">🇺🇸 USD (Dólares/Zelle)</option>
-            <option value="COP">🇨🇴 COP (Pesos Colombianos)</option>
-            <option value="PEN">🇵🇪 PEN (Soles Peruanos)</option>
+            <option value="CLP">🇨🇱 Pesos Chilenos (CLP)</option>
+            <option value="USD">🇺🇸 Dólares (USD)</option>
+            <option value="COP">🇨🇴 Pesos Colombianos (COP)</option>
+            <option value="PEN">🇵🇪 Soles Peruanos (PEN)</option>
         </select>
 
-        <label>Monto a cambiar:</label>
-        <input type="number" id="monto" placeholder="Ej: 100" oninput="calcular()">
-
-        <label>Quiero recibir:</label>
-        <select id="moneda-recibo">
-            <option value="VES">🇻🇪 VES (Bolívares)</option>
-        </select>
+        <label>Monto a enviar:</label>
+        <input type="number" id="monto" placeholder="Ej: 220000" oninput="calcular()">
 
         <div class="resultado-caja">
-            <span>Recibes aproximadamente:</span><br>
-            <span class="resultado-monto" id="resultado">0.00</span>
+            <span>Recibes en Venezuela:</span><br>
+            <span class="resultado-monto" id="resultado">0.00</span><span> Bs.</span>
         </div>
 
+        <h3>2. Datos del Receptor (Venezuela)</h3>
+        <label>Nombre y Apellido:</label>
+        <input type="text" id="nombre_receptor" placeholder="Nombre de quien recibe">
+        
+        <label>Cédula de Identidad:</label>
+        <input type="text" id="cedula" placeholder="Ej: 18.040.400">
+        
+        <label>Banco:</label>
+        <input type="text" id="banco" placeholder="Ej: Banesco">
+        
+        <label>Tipo de Cuenta:</label>
+        <select id="tipo_cuenta">
+            <option value="Corriente">Cuenta Corriente</option>
+            <option value="Ahorro">Cuenta de Ahorros</option>
+            <option value="Pago Móvil">Pago Móvil</option>
+        </select>
+        
+        <label>Número de Cuenta / Teléfono:</label>
+        <input type="text" id="nro_cuenta" placeholder="0134...">
+
         <button class="btn-whatsapp" onclick="enviarWhatsApp()">
-            <i class="fab fa-whatsapp"></i> CONFIRMAR OPERACIÓN
+            <i class="fab fa-whatsapp"></i> ENVIAR DATOS AL VENDEDOR
         </button>
     </div>
 </div>
 
 <script>
-    // Tasas actualizadas según tus imágenes
     const tasas = {
         "CLP_VES": 0.487,
         "USD_VES": 365,
@@ -82,12 +98,26 @@
         const monto = document.getElementById('monto').value;
         const envio = document.getElementById('moneda-envio').value;
         const resultado = document.getElementById('resultado').innerText;
-        const vendedorData = document.getElementById('vendedor').value.split('|');
         
-        if(!monto || monto <= 0) { alert("Ingresa un monto válido"); return; }
+        const nombre = document.getElementById('nombre_receptor').value;
+        const cedula = document.getElementById('cedula').value;
+        const banco = document.getElementById('banco').value;
+        const tipo = document.getElementById('tipo_cuenta').value;
+        const nro = document.getElementById('nro_cuenta').value;
+        
+        const vendedorData = document.getElementById('vendedor').value.split('|');
+        const telVendedor = vendedorData[0];
+        const codVendedor = vendedorData[1];
 
-        const mensaje = `Hola, vengo de la web Cambios Yireh.%0A%0A*Vendedor:* ${vendedorData[1]}%0A*Envío:* ${monto} ${envio}%0A*Recibo:* ${resultado} VES%0A%0A¿Me dan los datos?`;
-        window.open(`https://wa.me/${vendedorData[0]}?text=${mensaje}`, '_blank');
+        if(!monto || !nombre || !nro) { 
+            alert("Por favor completa los montos y los datos del receptor"); 
+            return; 
+        }
+
+        // Formato exacto solicitado
+        const mensaje = `${nombre}%0A${cedula}%0A${banco}%0A${tipo}%0A${nro}%0A%0AMonto: ${resultado} bs.%0A${monto} ${envio}%0A${codVendedor}%0A${envio} Venezuela`;
+        
+        window.open(`https://wa.me/${telVendedor}?text=${mensaje}`, '_blank');
     }
 </script>
 </body>
