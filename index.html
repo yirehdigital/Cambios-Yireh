@@ -6,7 +6,7 @@
     <title>Cambios Yireh | Calculadora Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; }
+        :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; --rojo-alerta: #c0392b; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; text-align: center; }
         header { background: var(--naranja); color: white; padding: 25px; border-bottom: 5px solid var(--naranja-dark); }
         .logo { max-width: 150px; margin-bottom: 5px; }
@@ -17,14 +17,17 @@
         .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; border: 2px solid var(--naranja); margin: 20px 0; }
         .resultado-monto { font-size: 34px; font-weight: 800; color: var(--naranja); display: block; }
         
+        /* Alerta Antiestafas */
+        .alerta-seguridad { background: #fdf2f2; border: 1px solid #f5c6cb; color: var(--rojo-alerta); padding: 12px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; }
+        .alerta-seguridad i { font-size: 20px; }
+
         .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.3s; }
         .btn-active { opacity: 1 !important; pointer-events: auto !important; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4); }
         
-        /* Banner de información mejorado */
         .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; max-width: 1000px; margin: 20px auto; padding: 10px; }
         .card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; font-size: 13px; }
         .card h4 { margin-top: 0; color: var(--naranja); display: flex; align-items: center; gap: 8px; }
-        .error-hint { color: #e74c3c; font-size: 12px; text-align: left; font-weight: bold; margin-bottom: 10px; display: block; }
+        .error-hint { color: var(--rojo-alerta); font-size: 12px; text-align: left; font-weight: bold; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
@@ -44,7 +47,7 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
-            <label>Desde (Tengo):</label>
+            <label>Tengo:</label>
             <select id="origen" onchange="calcular()">
                 <option value="CHILE">🇨🇱 Chile (CLP)</option>
                 <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
@@ -58,7 +61,7 @@
             </select>
         </div>
         <div>
-            <label>Hacia (Quiero):</label>
+            <label>Hacia:</label>
             <select id="destino" onchange="calcular()">
                 <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
                 <option value="CHILE">🇨🇱 Chile (CLP)</option>
@@ -94,9 +97,14 @@
     <input type="text" id="nro_cuenta" placeholder="Número de cuenta o teléfono" oninput="validar()">
     <span id="hint" class="error-hint"></span>
 
-    <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left;">
+    <div class="alerta-seguridad">
+        <i class="fas fa-shield-alt"></i>
+        <span><b>SISTEMA DE VERIFICACIÓN:</b> Todo comprobante será auditado en nuestra cuenta bancaria antes de liberar fondos. Intentos de estafa serán reportados.</span>
+    </div>
+
+    <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left; border: 1px solid var(--naranja);">
         <input type="checkbox" id="comprobante" onchange="validar()"> 
-        <b>Confirmación:</b> Ya tengo mi comprobante de pago listo para enviar.
+        <b>Confirmación:</b> Entiendo que mi transacción solo será procesada tras la verificación real del dinero en cuenta.
     </div>
 
     <button id="btn-wa" class="btn-whatsapp" onclick="enviar()">
@@ -128,8 +136,7 @@
 
 <script>
 const matriz = {
-    // Lógica principal de tus tablas
-    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'}, // Dividir
+    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'},
     "CHILE_VENEZUELA": {t: 0.487, o: 'm'},
     "PERU_VENEZUELA": {t: 126, o: 'm'},
     "DOLAR_VENEZUELA": {t: 365, o: 'm'},
@@ -149,19 +156,13 @@ function calcular() {
     const m = parseFloat(document.getElementById('monto').value) || 0;
     const o = document.getElementById('origen').value;
     const d = document.getElementById('destino').value;
-    
     document.getElementById('moneda-text').innerText = d === "VENEZUELA" ? "BOLÍVARES" : d;
-
     if(o === d) { document.getElementById('resultado').innerText = m.toFixed(2); return; }
-
     const config = matriz[`${o}_${d}`];
     if(config) {
         let res = config.o === 'm' ? m * config.t : m / config.t;
-        // Formato: Comas para miles, Punto para decimales (ej: 5,494.51)
         document.getElementById('resultado').innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    } else {
-        document.getElementById('resultado').innerText = "Consulte Tasa";
-    }
+    } else { document.getElementById('resultado').innerText = "Consulte Tasa"; }
     validar();
 }
 
@@ -181,17 +182,13 @@ function validar() {
         ok = (n.length === 20);
         h.innerText = ok ? "" : "❌ La cuenta bancaria requiere 20 dígitos";
     }
-
-    if(ok && comp && monto > 0) {
-        b.classList.add('btn-active');
-    } else {
-        b.classList.remove('btn-active');
-    }
+    if(ok && comp && monto > 0) { b.classList.add('btn-active'); } 
+    else { b.classList.remove('btn-active'); }
 }
 
 function enviar() {
     const v = document.getElementById('vendedor').value.split('|');
-    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🆔 ${document.getElementById('cedula').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}%0A%0A_Adjunto mi comprobante a continuación..._`;
+    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🆔 ${document.getElementById('cedula').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}%0A%0A*ADVERTENCIA:* Entiendo que mi comprobante será verificado antes de procesar el pago.`;
     window.open(`https://wa.me/${v[0]}?text=${msg}`,'_blank');
 }
 </script>
