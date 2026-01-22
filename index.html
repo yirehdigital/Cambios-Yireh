@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambios Yireh | Tu Remesa Segura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --azul: #1e3a8a;
+            --dorado: #fbbf24;
+            --blanco: #ffffff;
+            --gris: #f3f4f6;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--gris); margin: 0; padding: 0; text-align: center; }
+        header { background: var(--azul); color: white; padding: 20px; border-bottom: 4px solid var(--dorado); }
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .logo { max-width: 150px; margin-bottom: 10px; }
+        h1 { font-size: 24px; color: var(--azul); }
+        
+        /* Estilos de la Calculadora */
+        .calculadora { text-align: left; }
+        label { font-weight: bold; display: block; margin: 10px 0 5px; }
+        select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        
+        .resultado-caja { background: #e0f2fe; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px dashed var(--azul); }
+        .resultado-monto { font-size: 24px; font-weight: bold; color: var(--azul); }
+
+        .btn-whatsapp { background: #25d366; color: white; padding: 15px; border: none; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+        .btn-whatsapp:hover { background: #128c7e; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>CAMBIOS YIREH</h2>
+    <p>Rápido, Seguro y Confiable</p>
+</header>
+
+<div class="container">
+    <h1>Calculadora de Envío</h1>
+    
+    <div class="calculadora">
+        <label>Tengo (Envías):</label>
+        <select id="moneda-envio">
+            <option value="USD">🇺🇸 USD (Zelle/Wally/Zinli)</option>
+            <option value="COP">🇨🇴 Pesos Colombianos</option>
+            <option value="PEN">🇵🇪 Soles Peruanos</option>
+            <option value="CLP">🇨🇱 Pesos Chilenos</option>
+        </select>
+
+        <label>Monto a cambiar:</label>
+        <input type="number" id="monto" placeholder="Ej: 100" oninput="calcular()">
+
+        <label>Quiero recibir:</label>
+        <select id="moneda-recibo" onchange="calcular()">
+            <option value="VES">🇻🇪 Bolívares (Venezuela)</option>
+            <option value="COP">🇨🇴 Pesos Colombianos</option>
+            <option value="USD">🇺🇸 Dólares (Zelle/Panamá)</option>
+        </select>
+
+        <label>Vendedor de confianza:</label>
+        <select id="vendedor">
+            <option value="No seleccionado">-- Selecciona tu vendedor --</option>
+            <option value="Y40 Nay Martínez">Y40 Nay Martínez</option>
+            </select>
+
+        <div class="resultado-caja">
+            <span>Recibes aproximadamente:</span><br>
+            <span class="resultado-monto" id="resultado">0.00</span>
+        </div>
+
+        <a href="#" class="btn-whatsapp" onclick="enviarWhatsApp()">
+            <i class="fab fa-whatsapp"></i> CONFIRMAR EN WHATSAPP
+        </a>
+    </div>
+</div>
+
+<script>
+    // ESTAS SON LAS TASAS (Tú las cambias aquí cada día)
+    const tasas = {
+        "USD_VES": 45.50, // 1 Dólar a Bolívares
+        "COP_VES": 0.011, // 1 Peso Col a Bolívares
+        "PEN_VES": 12.10, // 1 Sol a Bolívares
+        "CLP_VES": 0.048  // 1 Peso Chi a Bolívares
+    };
+
+    function calcular() {
+        const monto = document.getElementById('monto').value;
+        const envio = document.getElementById('moneda-envio').value;
+        const recibo = document.getElementById('moneda-recibo').value;
+        const tasaClave = `${envio}_${recibo}`;
+        
+        let total = 0;
+        if(tasas[tasaClave]) {
+            total = monto * tasas[tasaClave];
+        } else {
+            total = monto * 1; // Ajuste si no hay tasa definida aún
+        }
+        
+        document.getElementById('resultado').innerText = total.toLocaleString('es-VE', {minimumFractionDigits: 2});
+    }
+
+    function enviarWhatsApp() {
+        const monto = document.getElementById('monto').value;
+        const envio = document.getElementById('moneda-envio').value;
+        const resultado = document.getElementById('resultado').innerText;
+        const recibo = document.getElementById('moneda-recibo').value;
+        const vendedor = document.getElementById('vendedor').value;
+        
+        const mensaje = `Hola *Cambios Yireh*, vengo de la web:%0A%0A*Vendedor:* ${vendedor}%0A*Envío:* ${monto} ${envio}%0A*Recibo:* ${resultado} ${recibo}%0A%0A¿Me dan los datos para transferir?`;
+        
+        window.open(`https://wa.me/584127769427?text=${mensaje}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
