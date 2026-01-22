@@ -13,15 +13,11 @@
         .container { max-width: 600px; margin: 20px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         label { font-weight: bold; display: block; margin: 15px 0 5px; text-align: left; }
         select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; }
-        
         .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; border: 2px solid var(--naranja); margin: 20px 0; }
         .resultado-monto { font-size: 34px; font-weight: 800; color: var(--naranja); display: block; }
-        
         .alerta-seguridad { background: #fdf2f2; border: 1px solid #f5c6cb; color: var(--rojo); padding: 12px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; }
-        
         .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.3s; }
         .btn-active { opacity: 1 !important; pointer-events: auto !important; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4); }
-        
         .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; max-width: 1000px; margin: 20px auto; padding: 10px; }
         .card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; font-size: 13px; }
         .card h4 { margin-top: 0; color: var(--naranja); display: flex; align-items: center; gap: 8px; }
@@ -56,7 +52,7 @@
         </div>
         <div>
             <label>Hacia (Quiero):</label>
-            <select id="destino" onchange="calcular()">
+            <select id="destino" onchange="ajustarCampos()">
                 <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
                 <option value="CHILE">🇨🇱 Chile (CLP)</option>
                 <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
@@ -83,17 +79,22 @@
     <input type="text" id="nombre" placeholder="Nombre y Apellido">
     <input type="text" id="cedula" placeholder="Cédula / ID">
     <input type="text" id="banco" placeholder="Banco">
-    <select id="tipo_cuenta" onchange="validar()">
-        <option value="Corriente">Cuenta Corriente</option>
-        <option value="Ahorro">Cuenta de Ahorro</option>
-        <option value="Pago Móvil">Pago Móvil</option>
-    </select>
+    
+    <div id="wrapper-tipo">
+        <label>Tipo de Cuenta:</label>
+        <select id="tipo_cuenta" onchange="validar()">
+            <option value="Corriente">Cuenta Corriente (20 dígitos)</option>
+            <option value="Ahorro">Cuenta de Ahorro (20 dígitos)</option>
+            <option value="Pago Móvil">Pago Móvil (11 dígitos)</option>
+        </select>
+    </div>
+
     <input type="text" id="nro_cuenta" placeholder="Número de cuenta o teléfono" oninput="validar()">
     <span id="hint" class="error-hint"></span>
 
     <div class="alerta-seguridad">
         <i class="fas fa-shield-alt"></i>
-        <span><b>VERIFICACIÓN OBLIGATORIA:</b> Todo comprobante será auditado en cuenta antes de procesar. No aceptamos capturas editadas.</span>
+        <span><b>SISTEMA ANTIESTAFAS:</b> Todo pago será verificado en cuenta antes de procesar. No aceptamos capturas editadas.</span>
     </div>
 
     <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left; border: 1px solid var(--naranja);">
@@ -112,19 +113,19 @@
         <b>(VES) VENEZUELA:</b> Todos los bancos y Pago Móvil.<br>
         <b>(CLP) CHILE:</b> Todos los bancos.<br>
         <b>(PEN) PERU:</b> BCP, Yape, Interbancaria.<br>
-        <b>(COP) COLOMBIA:</b> Nequi, Bancolombia, Transfiya, Llave Bre-B.
+        <b>(COP) COLOMBIA:</b> Nequi, Bancolombia, Transfiya.
     </div>
     <div class="card">
         <h4><i class="fas fa-wallet"></i> Billeteras & USD</h4>
-        <b>(USD) Zelle:</b> Mínimo 50$.<br>
-        <b>(USD) Zinli / Wally:</b> Mínimo 20$.<br>
-        <b>(USD) Panamá:</b> Banco General, Yappi, Banistmo. Min 20$.<br>
-        <b>(USD) Ecuador:</b> Pichincha, Guayaquil. Min 20$.
+        <b>Zelle:</b> Mínimo 50$.<br>
+        <b>Zinli / Wally:</b> Mínimo 20$.<br>
+        <b>Panamá:</b> Banco General, Yappi, Banistmo. Min 20$.<br>
+        <b>Ecuador:</b> Pichincha, Guayaquil. Min 20$.
     </div>
     <div class="card">
         <h4><i class="fas fa-map-marker-alt"></i> Otros Destinos</h4>
-        <b>(MXN) México:</b> BBVA, STP, MercadoPago. Min 20$.<br>
-        <b>(ARS) Argentina:</b> MercadoPago, Ualá, Brubank. Min 20$.
+        <b>México:</b> BBVA, STP, MercadoPago. Min 20$.<br>
+        <b>Argentina:</b> MercadoPago, Ualá, Brubank. Min 20$.
     </div>
 </div>
 
@@ -146,6 +147,17 @@ const matriz = {
     "CHILE_DOLAR": {t: 0.00098, o: 'm'}
 };
 
+function ajustarCampos() {
+    const d = document.getElementById('destino').value;
+    const wrapper = document.getElementById('wrapper-tipo');
+    if (d === "VENEZUELA") {
+        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><select id="tipo_cuenta" onchange="validar()"><option value="Corriente">Cuenta Corriente (20 dígitos)</option><option value="Ahorro">Cuenta de Ahorro (20 dígitos)</option><option value="Pago Móvil">Pago Móvil (11 dígitos)</option></select>`;
+    } else {
+        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: Ahorros, RUT, CLABE, CBU..." oninput="validar()">`;
+    }
+    calcular();
+}
+
 function calcular() {
     const m = parseFloat(document.getElementById('monto').value) || 0;
     const o = document.getElementById('origen').value;
@@ -161,38 +173,26 @@ function calcular() {
 }
 
 function validar() {
-    const t = document.getElementById('tipo_cuenta').value;
     const d = document.getElementById('destino').value;
     const n = document.getElementById('nro_cuenta').value.replace(/\D/g,'');
     const comp = document.getElementById('comprobante').checked;
     const b = document.getElementById('btn-wa');
     const h = document.getElementById('hint');
     const monto = parseFloat(document.getElementById('monto').value) || 0;
-    
+    const tipo = document.getElementById('tipo_cuenta').value;
     let ok = false;
-
-    // Solo validamos dígitos si el destino es VENEZUELA
     if (d === "VENEZUELA") {
-        if (t === "Pago Móvil") {
-            ok = (n.length === 11);
-            h.innerText = ok ? "" : "❌ Pago Móvil en Venezuela requiere 11 dígitos";
-        } else {
-            ok = (n.length === 20);
-            h.innerText = ok ? "" : "❌ Cuentas en Venezuela requieren 20 dígitos";
-        }
-    } else {
-        // Para otros países, solo pedimos que el campo no esté vacío
-        ok = (n.length >= 5);
-        h.innerText = "";
-    }
-
+        if (tipo === "Pago Móvil") { ok = (n.length === 11); h.innerText = ok ? "" : "❌ 11 dígitos requeridos"; } 
+        else { ok = (n.length === 20); h.innerText = ok ? "" : "❌ 20 dígitos requeridos"; }
+    } else { ok = (n.length >= 5 && tipo.length > 2); h.innerText = ""; }
     if(ok && comp && monto > 0) { b.classList.add('btn-active'); } 
     else { b.classList.remove('btn-active'); }
 }
 
 function enviar() {
     const v = document.getElementById('vendedor').value.split('|');
-    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🆔 ${document.getElementById('cedula').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}`;
+    const tipoVal = document.getElementById('tipo_cuenta').value;
+    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🆔 ${document.getElementById('cedula').value}%0A🏦 ${document.getElementById('banco').value}%0A📝 Tipo: ${tipoVal}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}`;
     window.open(`https://wa.me/${v[0]}?text=${msg}`,'_blank');
 }
 </script>
