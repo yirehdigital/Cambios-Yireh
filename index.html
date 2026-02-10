@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambios Yireh | Gestión de Remesas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script>
+        /****************************************************************
+         * 📊 PANEL DE CONTROL DE TASAS (EDITA AQUÍ)
+         ****************************************************************/
+        const TASAS_CONFIG = {
+            CHILE_A_BS: 0.487,    
+            COLOMBIA_A_BS: 9.1,   
+            PERU_A_BS: 126,       
+            USD_A_BS: 365,        
+            BS_A_CHILE: 0.7,      
+            BS_A_COLOMBIA: 6,     
+            BS_A_PERU: 150,       
+            BS_A_USD: 635,        
+            USD_A_CHILE: 765,     
+            USD_A_PERU: 2.88,     
+            USD_A_COLOMBIA: 3160  
+        };
+
+        /****************************************************************
+         * 👥 PANEL DE VENDEDORES (ORGANIZADOS DE Y1 A Y57)
+         ****************************************************************/
+        const VENDEDORES_CONFIG = [
+            "584127769427|Y1 Aiskell Briceño",
+            "584163671522|Y2 Nerio Arias",
+            "56927116173|Y10 Mayelis Piña",
+            "56984584496|Y16 Miriam González",
+            "5841220628361|Y17 Alba Arévalo",
+            "584246042760|Y19 Mayren Morillo",
+            "584141682959|Y21 Jesús Navarro",
+            "584124662073|Y23 Arleny Meza",
+            "15619439353|Y30 Leidy Andrade",
+            "56974967341|Y32 José Millán",
+            "56977779695|Y37 MAIRELIS NAVA",
+            "584146197804|Y39 Monica Faria",
+            "56957326594|Y40 Nay Martínez",
+            "584127713970|Y42 Roxana Perez",
+            "584146482462|Y44 Yeilimar Salas",
+            "573168926479|Y49 Hendrina Fernandez",
+            "56947479603|Y50 Mireidy Diaz",
+            "56981915712|Y57 Jonatan Cordero"
+        ];
+    </script>
+
     <style>
         :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; --rojo: #c0392b; --verde: #27ae60; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--gris); margin: 0; color: var(--azul); }
@@ -23,15 +67,13 @@
         .btn-whatsapp { background: var(--verde); color: white; padding: 18px; border-radius: 10px; width: 100%; font-size: 17px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.4s; margin-top: 15px; }
         .btn-active { opacity: 1 !important; pointer-events: auto !important; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3); }
 
-        /* ESTILO FIEL A LA IMAGEN ADJUNTA */
+        /* SECCIÓN DE TARJETAS INFORMATIVAS (SEGÚN IMAGEN) */
         .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        .card { background: white; padding: 25px; border-radius: 15px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; line-height: 1.6; }
+        .card { background: white; padding: 25px; border-radius: 15px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
         .card h4 { margin: 0 0 15px 0; color: var(--naranja); font-size: 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
-        .card p { margin: 5px 0; font-size: 14px; color: #333; }
+        .card p { margin: 8px 0; font-size: 14px; color: #333; line-height: 1.4; }
         .card b { color: #000; }
-        .prefix { font-weight: 800; font-size: 11px; text-transform: uppercase; margin-right: 4px; }
-
-        .alerta-seguridad { background: #fff5f5; border-left: 5px solid var(--rojo); color: #842029; padding: 12px; border-radius: 4px; font-size: 12px; margin-top: 20px; display: flex; align-items: center; gap: 10px; }
+        .prefix { font-weight: 800; font-size: 11px; text-transform: uppercase; margin-right: 4px; color: #555; }
     </style>
 </head>
 <body>
@@ -52,7 +94,7 @@
                 <option value="COLOMBIA">🇨🇴 Colombia</option>
                 <option value="VENEZUELA">🇻🇪 Venezuela</option>
                 <option value="PERU">🇵🇪 Perú</option>
-                <option value="DOLAR">🇺🇸 EEUU (USD)</option>
+                <option value="DOLAR">🇺🇸 Dólar</option>
             </select>
         </div>
         <div><label>Envío a:</label>
@@ -61,7 +103,7 @@
                 <option value="CHILE">🇨🇱 Chile</option>
                 <option value="COLOMBIA">🇨🇴 Colombia</option>
                 <option value="PERU">🇵🇪 Perú</option>
-                <option value="DOLAR">🇺🇸 Dólares (Zelle)</option>
+                <option value="DOLAR">🇺🇸 Dólar (Zelle)</option>
             </select>
         </div>
     </div>
@@ -81,13 +123,7 @@
     <input type="text" id="banco" placeholder="Banco de destino" oninput="validar()">
     
     <div id="wrapper-tipo">
-        <label>Tipo de Cuenta:</label>
-        <select id="tipo_cuenta" onchange="validar()">
-            <option value="Corriente">Cuenta Corriente (20 dígitos)</option>
-            <option value="Ahorro">Cuenta de Ahorro (20 dígitos)</option>
-            <option value="Pago Móvil">Pago Móvil (11 dígitos)</option>
-        </select>
-    </div>
+        </div>
 
     <input type="text" id="nro_cuenta" placeholder="Número de cuenta o celular" oninput="validar()">
     <span id="hint" style="color:var(--rojo); font-size:12px; display:block; margin-bottom:10px; font-weight: bold;"></span>
@@ -121,42 +157,6 @@
 </div>
 
 <script>
-/**
- * 📊 PANEL DE CONTROL DE TASAS
- */
-const TASAS_CONFIG = {
-    CHILE_A_BS: 0.487,    COLOMBIA_A_BS: 9.1,   
-    PERU_A_BS: 126,       USD_A_BS: 365,        
-    BS_A_CHILE: 0.7,      BS_A_COLOMBIA: 6,     
-    BS_A_PERU: 150,       BS_A_USD: 635,        
-    USD_A_CHILE: 765,     USD_A_PERU: 2.88,     
-    USD_A_COLOMBIA: 3160  
-};
-
-/**
- * 👥 PANEL DE VENDEDORES
- */
-const VENDEDORES_CONFIG = [
-    "56957326594|Y40 Nay Martínez",
-    "56974967341|Y32 José Millán",
-    "5841220628361|Y17 Alba Arévalo",
-    "584141682959|Y21 Jesús Navarro",
-    "584124662073|Y23 Arleny Meza",
-    "584127713970|Y42 Roxana Perez",
-    "584146197804|Y39 Monica Faria",
-    "56977779695|Y37 MAIRELIS NAVA",
-    "584146482462|Y44 Yeilimar Salas",
-    "573168926479|Y49 Hendrina Fernandez",
-    "56984584496|Y16 Miriam González",
-    "56947479603|Y50 Mireidy Diaz",
-    "15619439353|Y30 Leidy Andrade",
-    "56981915712|Y57 Jonatan Cordero",
-    "56927116173|Y10 Mayelis Piña",
-    "584246042760|Y19 Mayren Morillo",
-    "584127769427|Y1 Aiskell Briceño",
-    "584163671522|Y2 Nerio Arias"
-];
-
 const matriz = {
     "CHILE_VENEZUELA":     { t: TASAS_CONFIG.CHILE_A_BS,    o: 'm' },
     "COLOMBIA_VENEZUELA":   { t: TASAS_CONFIG.COLOMBIA_A_BS,  o: 'd' },
@@ -189,7 +189,7 @@ function ajustarCampos() {
     if (d === "VENEZUELA") {
         wrapper.innerHTML = `<label>Tipo de Cuenta:</label><select id="tipo_cuenta" onchange="validar()"><option value="Corriente">Cuenta Corriente (20 dígitos)</option><option value="Ahorro">Cuenta de Ahorro (20 dígitos)</option><option value="Pago Móvil">Pago Móvil (11 dígitos)</option></select>`;
     } else {
-        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: RUT, CBU, Nequi..." oninput="validar()">`;
+        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: RUT, Nequi, CBU..." oninput="validar()">`;
     }
     calcular();
 }
@@ -208,7 +208,7 @@ function calcular() {
         if(config) {
             let res = config.o === 'm' ? m * config.t : m / config.t;
             resElem.innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        } else { resElem.innerText = m > 0 ? "Consulte Tasa" : "0.00"; }
+        } else { resElem.innerText = "Consulte Tasa"; }
     }
     validar();
 }
@@ -220,9 +220,9 @@ function validar() {
     const nombre = document.getElementById('nombre').value.trim();
     const banco = document.getElementById('banco').value.trim();
     const monto = parseFloat(document.getElementById('monto').value) || 0;
-    const tipo = document.getElementById('tipo_cuenta').value;
-    const h = document.getElementById('hint');
     const btn = document.getElementById('btn-wa');
+    const h = document.getElementById('hint');
+    const tipo = document.getElementById('tipo_cuenta').value;
 
     let ok = (nombre.length > 5 && banco.length > 2 && monto > 0 && comp);
 
@@ -230,10 +230,10 @@ function validar() {
         const digits = n.replace(/\D/g,'');
         if (tipo === "Pago Móvil") {
             ok = ok && (digits.length === 11);
-            h.innerText = (n && digits.length !== 11) ? `❌ Requiere 11 dígitos (${digits.length}/11)` : "";
+            h.innerText = (n && digits.length !== 11) ? `❌ Se requieren 11 dígitos` : "";
         } else {
             ok = ok && (digits.length === 20);
-            h.innerText = (n && digits.length !== 20) ? `❌ Requiere 20 dígitos (${digits.length}/20)` : "";
+            h.innerText = (n && digits.length !== 20) ? `❌ Se requieren 20 dígitos` : "";
         }
     } else { ok = ok && (n.length >= 5); h.innerText = ""; }
 
