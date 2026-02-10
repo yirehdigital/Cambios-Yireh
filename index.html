@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambios Yireh | Calculadora Global</title>
+    <title>Cambios Yireh | Gestión de Remesas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; --rojo: #c0392b; }
@@ -12,21 +12,19 @@
         .logo { max-width: 150px; margin-bottom: 5px; }
         .container { max-width: 600px; margin: 20px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         label { font-weight: bold; display: block; margin: 15px 0 5px; text-align: left; }
-        
-        /* Selectores con mejor aspecto visual */
-        select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; background: white; }
+        select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; }
         
         .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; border: 2px solid var(--naranja); margin: 20px 0; }
         .resultado-monto { font-size: 34px; font-weight: 800; color: var(--naranja); display: block; }
         
-        .alerta-seguridad { background: #fdf2f2; border: 1px solid #f5c6cb; color: var(--rojo); padding: 12px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; }
+        .alerta-seguridad { background: #fdf2f2; border: 1px solid #f5c6cb; color: var(--rojo); padding: 12px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; font-weight: bold; }
         
         .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.3s; }
         .btn-active { opacity: 1 !important; pointer-events: auto !important; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4); }
         
-        .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; max-width: 1000px; margin: 20px auto; padding: 10px; }
+        .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; max-width: 1000px; margin: 20px auto; padding: 10px; }
         .card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; font-size: 13px; }
-        .error-hint { color: var(--rojo); font-size: 12px; text-align: left; font-weight: bold; margin-bottom: 10px; display: block; }
+        .card h4 { margin-top: 0; color: var(--naranja); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -37,53 +35,68 @@
 </header>
 
 <div class="container">
-    <label><i class="fas fa-user-tie"></i> Vendedor de confianza:</label>
+    <label><i class="fas fa-id-badge"></i> Vendedor que le atiende:</label>
     <select id="vendedor">
         <option value="56957326594|Y40">Y40 Nay Martínez</option>
         <option value="56974967341|Y32">Y32 José Millán</option>
         <option value="5841220628361|Y17">Y17 Alba Arévalo</option>
+        <option value="584141682959|Y21">Y21 Jesús Navarro</option>
+        <option value="584124662073|Y23">Y23 Arleny Meza</option>
+        <option value="584127713970|Y42">Y42 Roxana Perez</option>
+        <option value="584146197804|Y39">Y39 Monica Faria</option>
+        <option value="56977779695|Y37">Y37 MAIRELIS NAVA</option>
+        <option value="584146482462|Y44">Y44 Yeilimar Salas</option>
+        <option value="573168926479|Y49">Y49 Hendrina Fernandez</option>
+        <option value="56984584496|Y16">Y16 Miriam González</option>
+        <option value="56947479603|Y50">Y50 Mireidy Diaz</option>
+        <option value="15619439353|Y30">Y30 Leidy Andrade</option>
+        <option value="56981915712|Y57">Y57 Jonatan Cordero</option>
+        <option value="56927116173|Y10">Y10 Mayelis Piña</option>
+        <option value="584246042760|Y19">Y19 Mayren Morillo</option>
+        <option value="584127769427|Y1">Y1 Aiskell Briceño</option>
+        <option value="584163671522|Y2">Y2 Nerio Arias</option>
     </select>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
-            <label>Desde (Tengo):</label>
+            <label>Tengo:</label>
             <select id="origen" onchange="calcular()">
-                <option value="CHILE">🇨🇱 Chile (CLP)</option>
-                <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
-                <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
-                <option value="PERU">🇵🇪 Perú (PEN)</option>
+                <option value="CHILE">🇨🇱 Chile</option>
+                <option value="COLOMBIA">🇨🇴 Colombia</option>
+                <option value="VENEZUELA">🇻🇪 Venezuela</option>
+                <option value="PERU">🇵🇪 Perú</option>
                 <option value="DOLAR">🇺🇸 EEUU (USD)</option>
             </select>
         </div>
         <div>
-            <label>Hacia (Quiero):</label>
+            <label>Quiero enviar a:</label>
             <select id="destino" onchange="ajustarCampos()">
-                <option value="VENEZUELA">🇻🇪 Venezuela (VES)</option>
-                <option value="CHILE">🇨🇱 Chile (CLP)</option>
-                <option value="COLOMBIA">🇨🇴 Colombia (COP)</option>
-                <option value="PERU">🇵🇪 Perú (PEN)</option>
-                <option value="ARGENTINA">🇦🇷 Argentina (ARS)</option>
-                <option value="MEXICO">🇲🇽 México (MXN)</option>
-                <option value="PANAMA">🇵🇦 Panamá (USD)</option>
-                <option value="ECUADOR">🇪🇨 Ecuador (USD)</option>
-                <option value="DOLAR">🇺🇸 Dólares (USD)</option>
+                <option value="VENEZUELA">🇻🇪 Venezuela</option>
+                <option value="CHILE">🇨🇱 Chile</option>
+                <option value="COLOMBIA">🇨🇴 Colombia</option>
+                <option value="PERU">🇵🇪 Perú</option>
+                <option value="ARGENTINA">🇦🇷 Argentina</option>
+                <option value="MEXICO">🇲🇽 México</option>
+                <option value="PANAMA">🇵🇦 Panamá</option>
+                <option value="ECUADOR">🇪🇨 Ecuador</option>
+                <option value="DOLAR">🇺🇸 Dólares (Zelle)</option>
             </select>
         </div>
     </div>
 
     <label>Monto a enviar:</label>
-    <input type="number" id="monto" placeholder="Ej: 5000" oninput="calcular()">
+    <input type="number" id="monto" placeholder="0.00" oninput="calcular()">
 
     <div class="resultado-caja">
-        <span id="label-res" style="color:#7f8c8d; font-size:12px; font-weight:bold; text-transform:uppercase;">Recibes aproximadamente</span>
+        <span style="color:#7f8c8d; font-size:12px; font-weight:bold; text-transform:uppercase;">Recibes aproximadamente</span>
         <span class="resultado-monto" id="resultado">0.00</span>
         <b id="moneda-text" style="color:var(--azul)">BOLÍVARES</b>
     </div>
 
     <h3>Datos del Receptor</h3>
-    <input type="text" id="nombre" placeholder="Nombre y Apellido">
-    <input type="text" id="cedula" placeholder="Cédula / ID">
-    <input type="text" id="banco" placeholder="Banco">
+    <input type="text" id="nombre" placeholder="Nombre completo">
+    <input type="text" id="cedula" placeholder="DNI / Cédula / RUT">
+    <input type="text" id="banco" placeholder="Banco Destino">
     
     <div id="wrapper-tipo">
         <label>Tipo de Cuenta:</label>
@@ -95,38 +108,40 @@
     </div>
 
     <input type="text" id="nro_cuenta" placeholder="Número de cuenta o teléfono" oninput="validar()">
-    <span id="hint" class="error-hint"></span>
+    <span id="hint" style="color:var(--rojo); font-size:12px; display:block; margin-bottom:10px;"></span>
 
     <div class="alerta-seguridad">
-        <i class="fas fa-shield-alt"></i>
-        <span><b>SISTEMA DE SEGURIDAD:</b> Todo pago se verifica en la cuenta bancaria. No aceptamos comprobantes falsos o editados.</span>
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>VERIFICACIÓN: Todo pago es auditado en cuenta antes de procesar. Estafadores serán bloqueados y reportados.</span>
     </div>
 
-    <div style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left; border: 1px solid var(--naranja);">
+    <div style="background: #fff4e5; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left; border: 1px solid var(--naranja);">
         <input type="checkbox" id="comprobante" onchange="validar()"> 
-        <b>Confirmación:</b> Entiendo que la operación se procesa tras confirmar el dinero en cuenta.
+        <b>He realizado el pago y tengo el comprobante listo.</b>
     </div>
 
     <button id="btn-wa" class="btn-whatsapp" onclick="enviar()">
-        <i class="fab fa-whatsapp"></i> CONFIRMAR OPERACIÓN
+        <i class="fab fa-whatsapp"></i> ENVIAR FICHA POR WHATSAPP
     </button>
 </div>
 
 <div class="footer-cards">
     <div class="card">
-        <h4>🇻🇪 Venezuela & 🇨🇱 Chile</h4>
-        Todos los bancos y Pago Móvil.
-        <h4>🇵🇪 Perú & 🇨🇴 Colombia</h4>
-        BCP, Yape, Nequi, Bancolombia.
+        <h4>🏦 Bancos & Pago Móvil</h4>
+        <b>🇻🇪 Venezuela:</b> Todos los bancos (20 dígitos).<br>
+        <b>🇨🇱 Chile:</b> Todos los bancos (RUT).<br>
+        <b>🇵🇪 Perú:</b> BCP, Yape, Interbancaria.<br>
+        <b>🇨🇴 Colombia:</b> Nequi, Bancolombia, Transfiya.
     </div>
     <div class="card">
-        <h4>🇺🇸 Billeteras USD</h4>
-        Zelle (Min $50), Zinli, Wally, Panamá.
+        <h4>💳 Billeteras & Otros</h4>
+        <b>🇺🇸 USD:</b> Zelle (Min $50), Zinli, Wally.<br>
+        <b>🇵🇦 Panamá / 🇪🇨 Ecuador:</b> Min $20.<br>
+        <b>🇲🇽 México / 🇦🇷 Argentina:</b> M.Pago, Ualá, BBVA.
     </div>
 </div>
 
 <script>
-// MATRIZ DE TASAS SEGÚN TUS TABLAS
 const matriz = {
     "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'},
     "CHILE_VENEZUELA": {t: 0.487, o: 'm'},
@@ -138,7 +153,10 @@ const matriz = {
     "VENEZUELA_DOLAR": {t: 635, o: 'd'},
     "DOLAR_CHILE": {t: 765, o: 'm'},
     "DOLAR_PERU": {t: 2.88, o: 'm'},
-    "DOLAR_COLOMBIA": {t: 3160, o: 'm'}
+    "DOLAR_COLOMBIA": {t: 3160, o: 'm'},
+    "COLOMBIA_DOLAR": {t: 0.237, o: 'm'},
+    "PERU_DOLAR": {t: 0.262, o: 'm'},
+    "CHILE_DOLAR": {t: 0.00098, o: 'm'}
 };
 
 function ajustarCampos() {
@@ -147,7 +165,7 @@ function ajustarCampos() {
     if (d === "VENEZUELA") {
         wrapper.innerHTML = `<label>Tipo de Cuenta:</label><select id="tipo_cuenta" onchange="validar()"><option value="Corriente">Cuenta Corriente (20 dígitos)</option><option value="Ahorro">Cuenta de Ahorro (20 dígitos)</option><option value="Pago Móvil">Pago Móvil (11 dígitos)</option></select>`;
     } else {
-        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: RUT, CBU, CLABE..." oninput="validar()">`;
+        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: Corriente, RUT, CBU..." oninput="validar()">`;
     }
     calcular();
 }
@@ -157,10 +175,11 @@ function calcular() {
     const o = document.getElementById('origen').value;
     const d = document.getElementById('destino').value;
     document.getElementById('moneda-text').innerText = d === "VENEZUELA" ? "BOLÍVARES" : d;
+    if(o === d) { document.getElementById('resultado').innerText = m.toFixed(2); return; }
     const config = matriz[`${o}_${d}`];
     if(config) {
         let res = config.o === 'm' ? m * config.t : m / config.t;
-        document.getElementById('resultado').innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2});
+        document.getElementById('resultado').innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     } else { document.getElementById('resultado').innerText = m > 0 ? "Consulte Tasa" : "0.00"; }
     validar();
 }
@@ -171,20 +190,22 @@ function validar() {
     const comp = document.getElementById('comprobante').checked;
     const b = document.getElementById('btn-wa');
     const h = document.getElementById('hint');
+    const monto = parseFloat(document.getElementById('monto').value) || 0;
     const tipo = document.getElementById('tipo_cuenta').value;
+    
     let ok = false;
     if (d === "VENEZUELA") {
-        if (tipo === "Pago Móvil") ok = (n.length === 11);
-        else ok = (n.length === 20);
-        h.innerText = ok ? "" : "❌ Dígitos incompletos para Venezuela";
+        if (tipo === "Pago Móvil") { ok = (n.length === 11); h.innerText = ok ? "" : "❌ Falta dígito en Pago Móvil"; }
+        else { ok = (n.length === 20); h.innerText = ok ? "" : "❌ Faltan dígitos en cuenta"; }
     } else { ok = (n.length >= 5 && tipo.length > 2); h.innerText = ""; }
-    if(ok && comp && parseFloat(document.getElementById('monto').value) > 0) b.classList.add('btn-active');
+
+    if(ok && comp && monto > 0) b.classList.add('btn-active');
     else b.classList.remove('btn-active');
 }
 
 function enviar() {
     const v = document.getElementById('vendedor').value.split('|');
-    const msg = `*CIERRE DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}`;
+    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}`;
     window.open(`https://wa.me/${v[0]}?text=${msg}`,'_blank');
 }
 </script>
