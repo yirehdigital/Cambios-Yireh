@@ -6,54 +6,40 @@
     <title>Cambios Yireh | Gestión de Remesas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; --rojo: #c0392b; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; text-align: center; }
-        header { background: var(--naranja); color: white; padding: 25px; border-bottom: 5px solid var(--naranja-dark); }
-        .logo { max-width: 150px; margin-bottom: 5px; }
-        .container { max-width: 600px; margin: 20px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        label { font-weight: bold; display: block; margin: 15px 0 5px; text-align: left; }
-        select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; }
-        .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 10px; border: 2px solid var(--naranja); margin: 20px 0; }
-        .resultado-monto { font-size: 34px; font-weight: 800; color: var(--naranja); display: block; }
-        .alerta-seguridad { background: #fdf2f2; border: 1px solid #f5c6cb; color: var(--rojo); padding: 12px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; font-weight: bold; }
-        .btn-whatsapp { background: #27ae60; color: white; padding: 18px; border-radius: 8px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.3s; }
-        .btn-active { opacity: 1 !important; pointer-events: auto !important; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4); }
-        .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; max-width: 1000px; margin: 20px auto; padding: 10px; }
-        .card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; font-size: 13px; }
-        .card h4 { margin-top: 0; color: var(--naranja); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        :root { --naranja: #e67e22; --naranja-dark: #d35400; --azul: #2c3e50; --gris: #f4f7f6; --rojo: #c0392b; --verde: #27ae60; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--gris); margin: 0; color: var(--azul); }
+        header { background: var(--naranja); color: white; padding: 20px; border-bottom: 5px solid var(--naranja-dark); text-align: center; }
+        .logo { max-width: 140px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2)); }
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 50px; }
+        label { font-weight: bold; display: block; margin: 15px 0 5px; font-size: 14px; }
+        select, input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: var(--naranja); outline: none; background: #fffdfb; }
+        
+        .resultado-caja { background: #fff9f4; padding: 20px; border-radius: 12px; border: 2px dashed var(--naranja); margin: 20px 0; text-align: center; }
+        .resultado-monto { font-size: 36px; font-weight: 800; color: var(--naranja); display: block; }
+        
+        .alerta-seguridad { background: #fff5f5; border-left: 5px solid var(--rojo); color: #842029; padding: 12px; border-radius: 4px; font-size: 12px; margin-top: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        .btn-whatsapp { background: var(--verde); color: white; padding: 18px; border-radius: 10px; width: 100%; font-size: 17px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border: none; opacity: 0.3; pointer-events: none; transition: 0.4s; margin-top: 15px; }
+        .btn-active { opacity: 1 !important; pointer-events: auto !important; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3); }
+        
+        .footer-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; max-width: 1000px; margin: 0 auto 40px; padding: 0 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--naranja); box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 13px; line-height: 1.6; }
+        .card h4 { margin: 0 0 10px 0; color: var(--naranja); border-bottom: 1px solid #eee; padding-bottom: 5px; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="logo.png" alt="Cambios Yireh" class="logo">
-    <p>"Tu puente de confianza, tu dinero al instante."</p>
+    <div style="font-size: 14px; opacity: 0.9; margin-top: 5px;">"Tu puente de confianza, tu dinero al instante."</div>
 </header>
 
 <div class="container">
-    <label><i class="fas fa-id-badge"></i> Vendedor que le atiende:</label>
-    <select id="vendedor">
-        <option value="584127769427|Y1">Y1 Aiskell Briceño</option>
-        <option value="584163671522|Y2">Y2 Nerio Arias</option>
-        <option value="56927116173|Y10">Y10 Mayelis Piña</option>
-        <option value="56984584496|Y16">Y16 Miriam González</option>
-        <option value="5841220628361|Y17">Y17 Alba Arévalo</option>
-        <option value="584246042760|Y19">Y19 Mayren Morillo</option>
-        <option value="584141682959|Y21">Y21 Jesús Navarro</option>
-        <option value="584124662073|Y23">Y23 Arleny Meza</option>
-        <option value="15619439353|Y30">Y30 Leidy Andrade</option>
-        <option value="56974967341|Y32">Y32 José Millán</option>
-        <option value="56977779695|Y37">Y37 Mairelis Nava</option>
-        <option value="584146197804|Y39">Y39 Monica Faria</option>
-        <option value="56957326594|Y40">Y40 Nay Martínez</option>
-        <option value="584127713970|Y42">Y42 Roxana Perez</option>
-        <option value="584146482462|Y44">Y44 Yeilimar Salas</option>
-        <option value="573168926479|Y49">Y49 Hendrina Fernandez</option>
-        <option value="56947479603|Y50">Y50 Mireidy Diaz</option>
-        <option value="56981915712|Y57">Y57 Jonatan Cordero</option>
-    </select>
+    <label><i class="fas fa-user-tie"></i> Vendedor que le atiende:</label>
+    <select id="vendedor"></select>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
         <div>
             <label>Tengo:</label>
             <select id="origen" onchange="calcular()">
@@ -65,34 +51,33 @@
             </select>
         </div>
         <div>
-            <label>Quiero enviar a:</label>
+            <label>Envío a:</label>
             <select id="destino" onchange="ajustarCampos()">
                 <option value="VENEZUELA">🇻🇪 Venezuela</option>
                 <option value="CHILE">🇨🇱 Chile</option>
                 <option value="COLOMBIA">🇨🇴 Colombia</option>
                 <option value="PERU">🇵🇪 Perú</option>
-                <option value="ARGENTINA">🇦🇷 Argentina</option>
-                <option value="MEXICO">🇲🇽 México</option>
-                <option value="PANAMA">🇵🇦 Panamá</option>
-                <option value="ECUADOR">🇪🇨 Ecuador</option>
                 <option value="DOLAR">🇺🇸 Dólares (Zelle)</option>
             </select>
         </div>
     </div>
 
     <label>Monto a enviar:</label>
-    <input type="number" id="monto" placeholder="0.00" oninput="calcular()">
+    <input type="number" id="monto" placeholder="Ej: 50.00" oninput="calcular()">
 
     <div class="resultado-caja">
-        <span style="color:#7f8c8d; font-size:12px; font-weight:bold; text-transform:uppercase;">Recibes aproximadamente</span>
+        <small style="color:#7f8c8d; font-weight:bold; letter-spacing: 1px;">RECIBES APROXIMADAMENTE</small>
         <span class="resultado-monto" id="resultado">0.00</span>
-        <b id="moneda-text" style="color:var(--azul)">BOLÍVARES</b>
+        <b id="moneda-text" style="color:var(--azul); font-size: 14px;">BOLÍVARES</b>
     </div>
 
-    <h3>Datos del Receptor</h3>
-    <input type="text" id="nombre" placeholder="Nombre completo">
-    <input type="text" id="cedula" placeholder="DNI / Cédula / RUT">
-    <input type="text" id="banco" placeholder="Banco Destino">
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+
+    <h3 style="font-size: 18px; margin-bottom: 15px;"><i class="fas fa-user-check"></i> Datos del Receptor</h3>
+    
+    <input type="text" id="nombre" placeholder="Nombre completo del beneficiario" oninput="validar()">
+    <input type="text" id="cedula" placeholder="DNI / Cédula / RUT / Pasaporte" oninput="validar()">
+    <input type="text" id="banco" placeholder="Banco de destino" oninput="validar()">
     
     <div id="wrapper-tipo">
         <label>Tipo de Cuenta:</label>
@@ -103,56 +88,106 @@
         </select>
     </div>
 
-    <input type="text" id="nro_cuenta" placeholder="Número de cuenta o teléfono" oninput="validar()">
-    <span id="hint" style="color:var(--rojo); font-size:12px; display:block; margin-bottom:10px;"></span>
+    <input type="text" id="nro_cuenta" placeholder="Número de cuenta o celular" oninput="validar()">
+    <span id="hint" style="color:var(--rojo); font-size:12px; display:block; margin-bottom:10px; font-weight: bold;"></span>
 
-    <div class="alerta-seguridad">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>VERIFICACIÓN: Todo pago es auditado en cuenta antes de procesar. Estafadores serán bloqueados y reportados.</span>
-    </div>
-
-    <div style="background: #fff4e5; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: left; border: 1px solid var(--naranja);">
-        <input type="checkbox" id="comprobante" onchange="validar()"> 
-        <b>He realizado el pago y tengo el comprobante listo.</b>
+    <div style="background: #eef9f2; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #c3e6cb;">
+        <label style="margin:0; cursor:pointer; display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" id="comprobante" onchange="validar()" style="width:20px; height:20px; margin:0;"> 
+            <span>He realizado el pago y tengo el comprobante.</span>
+        </label>
     </div>
 
     <button id="btn-wa" class="btn-whatsapp" onclick="enviar()">
         <i class="fab fa-whatsapp"></i> ENVIAR FICHA POR WHATSAPP
     </button>
+
+    <div class="alerta-seguridad">
+        <i class="fas fa-shield-alt"></i>
+        <span>Todo pago es auditado antes de procesar. Estafadores serán reportados.</span>
+    </div>
 </div>
 
 <div class="footer-cards">
     <div class="card">
-        <h4>🏦 Bancos & Pago Móvil</h4>
-        <b>🇻🇪 Venezuela:</b> Todos los bancos (20 dígitos).<br>
-        <b>🇨🇱 Chile:</b> Todos los bancos (RUT).<br>
-        <b>🇵🇪 Perú:</b> BCP, Yape, Interbancaria.<br>
-        <b>🇨🇴 Colombia:</b> Nequi, Bancolombia, Transfiya.
+        <h4><i class="fas fa-university"></i> Cobertura Bancaria</h4>
+        <b>🇻🇪 Venezuela:</b> Pago Móvil y todos los bancos.<br>
+        <b>🇨🇱 Chile:</b> Todos los bancos (Cuenta RUT, Corriente).<br>
+        <b>🇵🇪 Perú:</b> BCP, Yape, Interbank y BBVA.
     </div>
     <div class="card">
-        <h4>💳 Billeteras & Otros</h4>
-        <b>🇺🇸 USD:</b> Zelle (Min $50), Zinli, Wally.<br>
-        <b>🇵🇦 Panamá / 🇪🇨 Ecuador:</b> Min $20.<br>
-        <b>🇲🇽 México / 🇦🇷 Argentina:</b> M.Pago, Ualá, BBVA.
+        <h4><i class="fas fa-shield-check"></i> Seguridad Yireh</h4>
+        Garantizamos transacciones rápidas y seguras. Al hacer clic en enviar, serás redirigido a uno de nuestros asesores oficiales.
     </div>
 </div>
 
 <script>
+/**
+ * 📊 PANEL DE CONTROL DE TASAS
+ */
+const TASAS_CONFIG = {
+    CHILE_A_BS: 0.487,    
+    COLOMBIA_A_BS: 9.1,   
+    PERU_A_BS: 126,       
+    USD_A_BS: 365,        
+    BS_A_CHILE: 0.7,      
+    BS_A_COLOMBIA: 6,     
+    BS_A_PERU: 150,       
+    BS_A_USD: 635,        
+    USD_A_CHILE: 765,     
+    USD_A_PERU: 2.88,     
+    USD_A_COLOMBIA: 3160  
+};
+
+/**
+ * 👥 PANEL DE VENDEDORES
+ */
+const VENDEDORES_CONFIG = [
+    "56957326594|Y40 Nay Martínez",
+    "56974967341|Y32 José Millán",
+    "5841220628361|Y17 Alba Arévalo",
+    "584141682959|Y21 Jesús Navarro",
+    "584124662073|Y23 Arleny Meza",
+    "584127713970|Y42 Roxana Perez",
+    "584146197804|Y39 Monica Faria",
+    "56977779695|Y37 MAIRELIS NAVA",
+    "584146482462|Y44 Yeilimar Salas",
+    "573168926479|Y49 Hendrina Fernandez",
+    "56984584496|Y16 Miriam González",
+    "56947479603|Y50 Mireidy Diaz",
+    "15619439353|Y30 Leidy Andrade",
+    "56981915712|Y57 Jonatan Cordero",
+    "56927116173|Y10 Mayelis Piña",
+    "584246042760|Y19 Mayren Morillo",
+    "584127769427|Y1 Aiskell Briceño",
+    "584163671522|Y2 Nerio Arias"
+];
+
+// Lógica de matriz de conversión
 const matriz = {
-    "COLOMBIA_VENEZUELA": {t: 9.1, o: 'd'},
-    "CHILE_VENEZUELA": {t: 0.487, o: 'm'},
-    "PERU_VENEZUELA": {t: 126, o: 'm'},
-    "DOLAR_VENEZUELA": {t: 365, o: 'm'},
-    "VENEZUELA_CHILE": {t: 0.7, o: 'd'},
-    "VENEZUELA_COLOMBIA": {t: 6, o: 'm'},
-    "VENEZUELA_PERU": {t: 150, o: 'd'},
-    "VENEZUELA_DOLAR": {t: 635, o: 'd'},
-    "DOLAR_CHILE": {t: 765, o: 'm'},
-    "DOLAR_PERU": {t: 2.88, o: 'm'},
-    "DOLAR_COLOMBIA": {t: 3160, o: 'm'},
-    "COLOMBIA_DOLAR": {t: 0.237, o: 'm'},
-    "PERU_DOLAR": {t: 0.262, o: 'm'},
-    "CHILE_DOLAR": {t: 0.00098, o: 'm'}
+    "CHILE_VENEZUELA":     { t: TASAS_CONFIG.CHILE_A_BS,    o: 'm' },
+    "COLOMBIA_VENEZUELA":   { t: TASAS_CONFIG.COLOMBIA_A_BS,  o: 'd' },
+    "PERU_VENEZUELA":       { t: TASAS_CONFIG.PERU_A_BS,     o: 'm' },
+    "DOLAR_VENEZUELA":      { t: TASAS_CONFIG.USD_A_BS,      o: 'm' },
+    "VENEZUELA_CHILE":      { t: TASAS_CONFIG.BS_A_CHILE,    o: 'd' },
+    "VENEZUELA_COLOMBIA":   { t: TASAS_CONFIG.BS_A_COLOMBIA, o: 'm' },
+    "VENEZUELA_PERU":       { t: TASAS_CONFIG.BS_A_PERU,     o: 'd' },
+    "VENEZUELA_DOLAR":      { t: TASAS_CONFIG.BS_A_USD,      o: 'd' },
+    "DOLAR_CHILE":          { t: TASAS_CONFIG.USD_A_CHILE,   o: 'm' },
+    "DOLAR_PERU":           { t: TASAS_CONFIG.USD_A_PERU,    o: 'm' },
+    "DOLAR_COLOMBIA":       { t: TASAS_CONFIG.USD_A_COLOMBIA, o: 'm' }
+};
+
+window.onload = function() {
+    const select = document.getElementById('vendedor');
+    VENDEDORES_CONFIG.forEach(v => {
+        const [tel, nombre] = v.split('|');
+        const opt = document.createElement('option');
+        opt.value = `${tel}|${nombre}`;
+        opt.innerHTML = nombre;
+        select.appendChild(opt);
+    });
+    ajustarCampos();
 };
 
 function ajustarCampos() {
@@ -161,7 +196,7 @@ function ajustarCampos() {
     if (d === "VENEZUELA") {
         wrapper.innerHTML = `<label>Tipo de Cuenta:</label><select id="tipo_cuenta" onchange="validar()"><option value="Corriente">Cuenta Corriente (20 dígitos)</option><option value="Ahorro">Cuenta de Ahorro (20 dígitos)</option><option value="Pago Móvil">Pago Móvil (11 dígitos)</option></select>`;
     } else {
-        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: Corriente, RUT, CBU..." oninput="validar()">`;
+        wrapper.innerHTML = `<label>Tipo de Cuenta:</label><input type="text" id="tipo_cuenta" placeholder="Ej: RUT, CBU, Nequi..." oninput="validar()">`;
     }
     calcular();
 }
@@ -170,38 +205,68 @@ function calcular() {
     const m = parseFloat(document.getElementById('monto').value) || 0;
     const o = document.getElementById('origen').value;
     const d = document.getElementById('destino').value;
+    const resElem = document.getElementById('resultado');
     document.getElementById('moneda-text').innerText = d === "VENEZUELA" ? "BOLÍVARES" : d;
-    if(o === d) { document.getElementById('resultado').innerText = m.toFixed(2); return; }
-    const config = matriz[`${o}_${d}`];
-    if(config) {
-        let res = config.o === 'm' ? m * config.t : m / config.t;
-        document.getElementById('resultado').innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    } else { document.getElementById('resultado').innerText = m > 0 ? "Consulte Tasa" : "0.00"; }
+    
+    if(o === d) { 
+        resElem.innerText = m.toFixed(2); 
+    } else {
+        const config = matriz[`${o}_${d}`];
+        if(config) {
+            let res = config.o === 'm' ? m * config.t : m / config.t;
+            resElem.innerText = res.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        } else { 
+            resElem.innerText = m > 0 ? "Consulte Tasa" : "0.00"; 
+        }
+    }
     validar();
 }
 
 function validar() {
     const d = document.getElementById('destino').value;
-    const n = document.getElementById('nro_cuenta').value.replace(/\D/g,'');
+    const n = document.getElementById('nro_cuenta').value.trim();
     const comp = document.getElementById('comprobante').checked;
-    const b = document.getElementById('btn-wa');
-    const h = document.getElementById('hint');
+    const nombre = document.getElementById('nombre').value.trim();
+    const banco = document.getElementById('banco').value.trim();
     const monto = parseFloat(document.getElementById('monto').value) || 0;
     const tipo = document.getElementById('tipo_cuenta').value;
-    
-    let ok = false;
-    if (d === "VENEZUELA") {
-        if (tipo === "Pago Móvil") { ok = (n.length === 11); h.innerText = ok ? "" : "❌ Falta dígito en Pago Móvil"; }
-        else { ok = (n.length === 20); h.innerText = ok ? "" : "❌ Faltan dígitos en cuenta"; }
-    } else { ok = (n.length >= 5 && tipo.length > 2); h.innerText = ""; }
+    const h = document.getElementById('hint');
+    const btn = document.getElementById('btn-wa');
 
-    if(ok && comp && monto > 0) b.classList.add('btn-active');
-    else b.classList.remove('btn-active');
+    let ok = (nombre.length > 5 && banco.length > 2 && monto > 0 && comp);
+
+    if (d === "VENEZUELA") {
+        const digits = n.replace(/\D/g,'');
+        if (tipo === "Pago Móvil") {
+            ok = ok && (digits.length === 11);
+            h.innerText = (n && digits.length !== 11) ? `❌ Falta dígito en Pago Móvil (${digits.length}/11)` : "";
+        } else {
+            ok = ok && (digits.length === 20);
+            h.innerText = (n && digits.length !== 20) ? `❌ Faltan dígitos en cuenta (${digits.length}/20)` : "";
+        }
+    } else {
+        ok = ok && (n.length >= 5);
+        h.innerText = "";
+    }
+
+    if(ok) btn.classList.add('btn-active');
+    else btn.classList.remove('btn-active');
 }
 
 function enviar() {
     const v = document.getElementById('vendedor').value.split('|');
-    const msg = `*FICHA DE OPERACIÓN*%0A--------------------------%0A👤 ${document.getElementById('nombre').value}%0A🏦 ${document.getElementById('banco').value}%0A🔢 ${document.getElementById('nro_cuenta').value}%0A%0A💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A💸 *PAGA:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A🤝 *VENDEDOR:* ${v[1]}`;
+    const msg = `*FICHA DE OPERACIÓN - YIREH*%0A` +
+                `--------------------------%0A` +
+                `👤 *Beneficiario:* ${document.getElementById('nombre').value.toUpperCase()}%0A` +
+                `🆔 *ID:* ${document.getElementById('cedula').value}%0A` +
+                `🏦 *Banco:* ${document.getElementById('banco').value.toUpperCase()}%0A` +
+                `🔢 *Nro:* ${document.getElementById('nro_cuenta').value}%0A` +
+                `--------------------------%0A` +
+                `💰 *RECIBE:* ${document.getElementById('resultado').innerText} ${document.getElementById('destino').value}%0A` +
+                `💸 *PAGO REALIZADO:* ${document.getElementById('monto').value} ${document.getElementById('origen').value}%0A` +
+                `🤝 *VENDEDOR:* ${v[1]}%0A` +
+                `--------------------------%0A` +
+                `✅ *Comprobante listo para enviar.*`;
     window.open(`https://wa.me/${v[0]}?text=${msg}`,'_blank');
 }
 </script>
